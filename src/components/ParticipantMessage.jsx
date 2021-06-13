@@ -1,7 +1,37 @@
 /** @format */
 
-const ParticipantMessage = () => {
-  return <div>ParticipantMessage</div>;
+const ParticipantMessage = ({ lastMessage, message }) => {
+  const isFirstMsgByUser =
+    !lastMessage || lastMessage.sender.username !== message.sender.username;
+  return (
+    <div className='message-row'>
+      {isFirstMsgByUser && (
+        <div
+          className='message-avatar'
+          style={{ backgroundImage: `url(${message?.sender?.avatar})` }}
+        />
+      )}
+      {message?.attachments?.length > 0 ? (
+        <img
+          className='message-image'
+          style={{ marginLeft: isFirstMsgByUser ? '4px' : '48px' }}
+          src={message.attachments[0].file}
+          alt='message-attachments'
+        />
+      ) : (
+        <div
+          className='message'
+          style={{
+            float: 'left',
+            backgroundColor: '#CABCDC',
+            marginLeft: isFirstMsgByUser ? '4px' : '48px',
+          }}
+        >
+          {message.text}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ParticipantMessage;
